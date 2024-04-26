@@ -57,9 +57,9 @@ class DomiOwned(object):
 		"""
 		try:
 			response = self.session.get("{0}/names.nsf?Open".format(url))
-		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeoutError) as error:
+		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeout) as e:
 			self.logger.error('Failed to establish a connection to the Domino server')
-			sys.exit()
+			exit()
 
 		# Basic authentication
 		if response.status_code == 401 and 'www-authenticate' in response.headers:
@@ -76,7 +76,7 @@ class DomiOwned(object):
 				sys.exit()
 		else:
 			self.logger.error('Unable to determine authentication type')
-			sys.exit()
+			exit()
 
 		return auth_type
 
@@ -140,7 +140,7 @@ class DomiOwned(object):
 
 		if response is None:
 			self.logger.error('Failed to establish a connection to the Domino server')
-			sys.exit()
+			exit()
 
 		return response
 
@@ -150,7 +150,7 @@ class DomiOwned(object):
 		"""
 		try:
 			response = self.session.get("{0}/{1}".format(self.url, endpoint), auth=(username, password))
-		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeoutError) as error:
+		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeout) as e:
 			return None
 
 		return response
@@ -162,7 +162,7 @@ class DomiOwned(object):
 		if not self.post_data:
 			try:
 				response = self.session.get("{0}/names.nsf?Open".format(self.url))
-			except (requests.exceptions.RequestException, requests.exceptions.ReadTimeoutError) as error:
+			except (requests.exceptions.RequestException, requests.exceptions.ReadTimeout) as e:
 				return None
 
 			if response.status_code == 200:
@@ -190,12 +190,12 @@ class DomiOwned(object):
 
 				try:
 					response = self.session.post("{0}/{1}".format(self.url, soup.find('form')['action']), data=self.post_data)
-				except (requests.exceptions.RequestException, requests.exceptions.ReadTimeoutError) as error:
+				except (requests.exceptions.RequestException, requests.exceptions.ReadTimeout) as e:
 					return None
 
 		try:
 			response = self.session.get("{0}/{1}".format(self.url, endpoint))
-		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeoutError) as error:
+		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeout) as e:
 			return None
 
 		return response
@@ -206,7 +206,7 @@ class DomiOwned(object):
 		"""
 		try:
 			response = self.session.get("{0}/{1}".format(self.url, endpoint))
-		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeoutError) as error:
+		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeout) as e:
 			return None
 
 		return response

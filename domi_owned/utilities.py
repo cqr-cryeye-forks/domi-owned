@@ -19,7 +19,6 @@
 # SOFTWARE.
 import logging.handlers
 import re
-import sys
 import tqdm
 
 
@@ -76,7 +75,7 @@ class Utilities(object):
 			return self.URL_REGEX.search(url).group(1)
 		else:
 			self.logger.error('Invalid URL provided')
-			sys.exit()
+			exit()
 
 	def setup_progress(self, total):
 		"""
@@ -126,7 +125,7 @@ class Banner(object):
 	"""
 	Domi-Owned visual banner.
 	"""
-	SHOW = """
+	SHOW = r"""
          __________   __________ __________ 
         |          |\|          |          |\\
         |  *    *  |||  *  *  * |        * ||

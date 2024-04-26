@@ -65,9 +65,9 @@ class QuickConsole(DomiOwned):
 
 		try:
 			response = self.session.get("{0}/webadmin.nsf/fmpgHomepage?ReadForm".format(self.url))
-		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeoutError) as error:
+		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeout) as e:
 			self.logger.error('Request timeout, the Domino server has stopped responding')
-			sys.exit()
+			exit()
 
 		# Linux Domino server
 		if 'UNIX' in response.text:
@@ -128,11 +128,11 @@ class QuickConsole(DomiOwned):
 				return self.session.get("{0}/download/filesets/log.txt".format(self.url))
 			else:
 				self.logger.error('Failed to execute command using the Quick Console')
-				sys.exit()
+				exit()
 
-		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeoutError) as error:
+		except (requests.exceptions.RequestException, requests.exceptions.ReadTimeout) as error:
 			self.logger.error('Request timeout, the Domino server has stopped responding')
-			sys.exit()
+			exit()
 
 
 class Interact(cmd.Cmd):
@@ -192,7 +192,7 @@ class Interact(cmd.Cmd):
 				else:
 					return False
 
-			except (requests.exceptions.RequestException, requests.exceptions.ReadTimeoutError) as error:
+			except (requests.exceptions.RequestException, requests.exceptions.ReadTimeout) as e:
 				self.logger.error('Request timeout, the Domino server has stopped responding')
 				self.do_exit
 
